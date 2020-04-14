@@ -81,6 +81,10 @@ public class VueGlobalController {
     private TableColumn<Operation, String> typecolumn;
     @FXML
     private TableColumn<Operation, Integer> montantcolumn;
+    @FXML
+    private TableColumn<Operation, Integer> datecreationcolumn;
+
+
 
     @FXML
     private TextField tf_id_operation;
@@ -96,6 +100,7 @@ public class VueGlobalController {
     @FXML 
     private TextField tf_resultatidCompteClient;
 
+ 
 
     // Reference to the main application.
     private Principal mainapp;
@@ -112,7 +117,7 @@ public class VueGlobalController {
 
     @FXML
    private void initialize() {
-        // Initialize the person table with the two columns.
+        // Initialize the person table with the four columns.
 
         nomcolumn.setCellValueFactory(cellData -> cellData.getValue().nomProperty());
         prenomcolumn.setCellValueFactory(cellData -> cellData.getValue().prenomProperty());
@@ -167,6 +172,7 @@ public class VueGlobalController {
 
 	    }
 	}
+	
 	//methode de recuperation d'id_compte du client
 	public String resultatidCompteClient(String nomclient) {
 		
@@ -365,6 +371,20 @@ System.out.println(selectedIndex);
 			        alert.showAndWait();
 		    	}
 		}
+		
+// appele de la methode  + attribution au bouton de recherche des operations
+		@FXML
+		private void bt_searchOpe () {
+
+		    	ObservableList<Operation> searchlist = FXCollections.observableArrayList();
+		    	int numS = Integer.parseInt(tf_s_num_compte.getText());
+		    	Client_dao cldao = new Client_dao();
+		    	searchlist = cldao.resultatSearchOpe(numS);
+		    	OperationTable.setItems(searchlist);
+		    	tf_s_num_compte.clear();
+
+
+		    }
 
 
 }

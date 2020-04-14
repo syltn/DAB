@@ -136,14 +136,9 @@ return null;
 
 //methode de recherche du compte
 	public Compte resultatSearchnum(Integer num_search) {
-		//pas besoin de creer un tableau car c'est une ligne qui nous est retourner
-		//ObservableList<Compte> resultatlistCompte = FXCollections.observableArrayList();
 		Connection connect = Connectdb.initConnection();
 		Compte uncompte = new Compte();
 		String sql;
-		//sql = "SELECT * FROM comptes WHERE num_compte like '%" + num_search +"%'";
-		//sql = "SELECT * FROM comptes WHERE num_compte="+num_search;
-
 		sql = "SELECT * FROM compte inner join client on compte.id_client=client.id_client where num_compte="+num_search;
 		try {
 			Statement st = connect.createStatement();
@@ -172,40 +167,8 @@ return null;
 		return uncompte;
 }
 
-
-// methode qui recupere et retourne une liste d'opération
-		public ObservableList<Operation> trouverTouteOpération() {
-
-			ObservableList<Operation> listOperation = FXCollections.observableArrayList();
-			Connection connect = Connectdb.initConnection();
-			String sql;
-			sql = "SELECT * FROM operation" ;
-			try {
-				Statement st = connect.createStatement();
-				ResultSet rs = st.executeQuery(sql);
-				while (rs.next()) {
-					int id_operation=rs.getInt("id_operation");
-					int num_operation=rs.getInt("num_op");
-					String operation=rs.getString("operation");
-					int montant=rs.getInt("montant");
-					//LocalDate date= rs.getDate("date");
-					int id_compte=rs.getInt("id_compte");
-
-					Operation uneoperation = new Operation (id_operation, num_operation, operation, montant, id_compte);
-					listOperation.add(uneoperation);
-				}
-			}catch ( Exception e) {
-				System.err.println(e.getMessage ());
-			}
-			return listOperation;
-
-
-
-
-}
-
-		//methode de recuperation d'id_compte du client
-		public String resultatidCompteClient(String nomclient) {
+//methode de recuperation d'id_compte du client
+public String resultatidCompteClient(String nomclient) {
 			
 			String resultatlist="";
 			Connection connect = Connectdb.initConnection();
@@ -225,6 +188,37 @@ return null;
 			return resultatlist;
 	}
 
+
+//methode de recherche d'operation
+public ObservableList<Operation> resultatSearchOpe(int num_compte_search ) {
+
+	ObservableList<Operation> resultatlist = FXCollections.observableArrayList();
+	Connection connect = Connectdb.initConnection();
+	String sql;
+	sql = "SELECT * FROM operation INNER JOIN compte on operation.id_compte=compte.id_compte WHERE num_compte="+num_compte_search;
+	
+	try {
+		Statement st = connect.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+		while (rs.next()) {
+			int id_operation=rs.getInt("id_operation");
+			int num_op=rs.getInt("num_op");
+			String operation= rs.getString("operation");
+			int montant= rs.getInt("montant");
+			int id_compte=rs.getInt("id_compte");
+			int num_compte=rs.getInt("num_compte");
+			String date_creation=rs.getString("date_creation");
+			
+
+			Operation desOpe = new Operation( id_operation, num_op,  operation,  montant,  id_compte, num_compte, date_creation);
+			resultatlist.add(desOpe);
+			}
+	}catch ( Exception e) {
+		System.err.println(e.getMessage ());
+			e.printStackTrace();
+	}
+	return resultatlist;
+}
 
 }
 
