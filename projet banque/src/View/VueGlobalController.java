@@ -9,7 +9,9 @@ import Modele.Client;
 import Modele.Compte;
 import Modele.Operation;
 import Utile.Client_dao;
+import Utile.Compte_dao;
 import Utile.Connectdb;
+import Utile.Operation_dao;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -21,7 +23,8 @@ import javafx.scene.control.TextField;
 
 
 public class VueGlobalController {
-    @FXML
+    private static final TableView<Client> CompteTable = null;
+	@FXML
     private TableView<Client> ClientTable;
     @FXML
     private TableColumn<Client, String> nomcolumn;
@@ -110,7 +113,8 @@ public class VueGlobalController {
      */
     public VueGlobalController() {
     }
-
+ 
+    
 
 //     Initializes the controller class. This method is automatically called
 //      after the fxml file has been loaded.
@@ -137,15 +141,7 @@ public class VueGlobalController {
 
 //Is called by the main application to give a reference back to itself.
 
-	public Principal getMainapp() {
-		return mainapp;
-	}
-	public void setMainapp(Principal mainapp) {
-		this.mainapp = mainapp;
-
-		ClientTable.setItems(mainapp.getClientData());
-
-	}
+;
 
 // appele de la methode  + affichage des client present en BDD
 	private void ClientDetail(Client person) {
@@ -169,6 +165,7 @@ public class VueGlobalController {
 	        tf_ville.setText("");
 	        tf_email.setText("");
 	        //tf_id_client.setText("");
+	        tf_resultatidCompteClient.setText("");
 
 	    }
 	}
@@ -302,7 +299,7 @@ public class VueGlobalController {
 	    }
 	}
 
-// creation du bouton supprimer
+// creation du bouton supprimer du client
 		@FXML
 	private void bt_suppr () {
 
@@ -349,7 +346,7 @@ System.out.println(selectedIndex);
 	private void bt_searchCount () {
 		    	int numS = Integer.parseInt(tf_s_num.getText());
 		    	if (numS>=0 ) {
-		     	Client_dao cldao = new Client_dao();
+		     	Compte_dao cldao = new Compte_dao();
 		    	Compte compteTr = cldao.resultatSearchnum(numS);
 		    	//tf_s_num_compte.textProperty().bind(compteTr.getNum_compte().asString());
 		    	tf_s_nom_compte.textProperty().bind(compteTr.getNom());
@@ -375,18 +372,42 @@ System.out.println(selectedIndex);
 // appele de la methode  + attribution au bouton de recherche des operations
 		@FXML
 		private void bt_searchOpe () {
-
-		    	ObservableList<Operation> searchlist = FXCollections.observableArrayList();
+			
+		    	ObservableList<Operation> searchlistope = FXCollections.observableArrayList();
 		    	int numS = Integer.parseInt(tf_s_num_compte.getText());
-		    	Client_dao cldao = new Client_dao();
-		    	searchlist = cldao.resultatSearchOpe(numS);
-		    	OperationTable.setItems(searchlist);
+		    	Operation_dao cldao = new Operation_dao();
+		    	searchlistope = cldao.resultatSearchOpe(numS);
+		    	OperationTable.setItems(searchlistope);
 		    	tf_s_num_compte.clear();
+		    	
+		}
+
+// appele de la methode  + attribution au bouton de mise a jour du compte solde retrait
+@FXML
+private void bt_updateCompte () {
+
+if (tf_s_limite_retrait != null) {
+	
+
+	int limite_retrait = Integer.parseInt(tf_s_num.getText());
+	
+	Compte uncompte = new Compte(limite_retrait);
 
 
-		    }
+	Compte_dao cldao = new Compte_dao();
+	cldao.compteUpdate(uncompte); //Maj dans la BDD
+	
+} else{
+    // Nothing selected.
+    Alert alert = new Alert(AlertType.WARNING);
+    alert.initOwner(mainapp.getPrimaryStage());
+    alert.setTitle("Aucune selection");
+    alert.setHeaderText("Pas de client selectionné(e)");
+    alert.setContentText("Merci de selectionné(e) un(e) client(e) dans la liste.");
 
-
+    alert.showAndWait();
+	}
 }
 
+}
 

@@ -4,6 +4,7 @@ import java.io.IOException;
 import Modele.Client;
 import Utile.Client_dao;
 import View.VueGlobalController;
+import View.identificationController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -26,8 +27,10 @@ public class Principal extends Application {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("AddressApp");
        initRootLayout();
-       VueGlobal();
+       identification();
 
+       
+       
 
     }
 
@@ -46,19 +49,20 @@ public class Principal extends Application {
             e.printStackTrace();
         }
     }
-
-    public boolean VueGlobal() {
+    
+    public boolean identification() {
         try {
             // Load person overview.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Principal.class.getResource("/View/VueGlobal.fxml"));
-            AnchorPane VueGlobal = (AnchorPane) loader.load();
+  
+            loader.setLocation(Principal.class.getResource("/View/identification.fxml"));
+            AnchorPane identification = (AnchorPane) loader.load();
 
             // Set person overview into the center of root layout.
-            rootLayout.setCenter(VueGlobal);
+            rootLayout.setCenter(identification);
 
             // Give the controller access to the main app.
-            VueGlobalController controller = loader.getController();
+            identificationController controller = (identificationController) loader.getController();
            controller.setMainapp(this);
 
         } catch (IOException e) {
@@ -66,6 +70,26 @@ public class Principal extends Application {
         }
 		return false;
     }
+
+//    public boolean VueGlobal() {
+//        try {
+//            // Load person overview.
+//            FXMLLoader loader = new FXMLLoader();
+//            loader.setLocation(Principal.class.getResource("/View/VueGlobal.fxml"));
+//            AnchorPane VueGlobal = (AnchorPane) loader.load();
+//
+//            // Set person overview into the center of root layout.
+//            rootLayout.setCenter(VueGlobal);
+//
+//            // Give the controller access to the main app.
+//            VueGlobalController controller = loader.getController();
+//           controller.setMainapp(this);
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//		return false;
+//    }
 
     public Stage getPrimaryStage() {
         return primaryStage;

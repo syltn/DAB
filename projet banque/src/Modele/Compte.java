@@ -47,6 +47,11 @@ public Compte(int id_compte,String date_creation, String nom,  double solde, int
     
 	}
 
+public Compte(int limite_retrait) {
+
+    this.limite_retrait.set(limite_retrait);  
+	}
+
 public Compte() {
 	// TODO Auto-generated constructor stub
 }
