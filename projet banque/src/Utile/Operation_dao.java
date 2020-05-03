@@ -10,6 +10,8 @@ import Modele.Operation;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+
+
 public class Operation_dao {
 
 	//methode de recherche d'operation
@@ -30,12 +32,13 @@ public class Operation_dao {
 				int montant= rs.getInt("montant");
 				int id_compte=rs.getInt("id_compte");
 				int num_compte=rs.getInt("num_compte");
-				String date_creation=rs.getString("date_creation");
+				String date_creation=rs.getString("date");
 				
 
 				Operation desOpe = new Operation( id_operation, num_op,  operation,  montant,  id_compte, num_compte, date_creation);
 				resultatlistop.add(desOpe);
-		    	System.out.println (resultatlistop );
+		    	System.out.println (resultatlistop);
+		    	System.out.println (desOpe);
 				}
 		}catch ( Exception e) {
 			System.err.println(e.getMessage ());
@@ -47,4 +50,3 @@ public class Operation_dao {
 
 }
 	
-

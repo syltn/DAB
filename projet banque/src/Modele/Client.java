@@ -17,13 +17,10 @@ public class Client {
         this(null, null);
     }
 
-    public Client(String Nom, String Prenom) {
+public Client(String Nom, String Prenom) {
     	this.nom.set(Nom);
         this.prenom.set(Prenom);
     }
-
-
-
 
 public Client(int id_client, String nom, String prenom, String ville, String adresse, String telephone, String email) {
 	this.nom.set(nom);
@@ -115,7 +112,7 @@ public void setid_client(Integer id_client) {
     this.id_client.set(id_client);
 }
 
-public IntegerProperty Aid_clientProperty() {
+public IntegerProperty id_clientProperty() {
     return id_client;
 }
 

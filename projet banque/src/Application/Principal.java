@@ -2,6 +2,7 @@ package Application;
 
 import java.io.IOException;
 import Modele.Client;
+import Modele.Identification;
 import Utile.Client_dao;
 import View.VueGlobalController;
 import View.identificationController;
@@ -9,6 +10,7 @@ import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -16,8 +18,9 @@ import javafx.stage.Stage;
 
 public class Principal extends Application {
 
+	private Identification log;
+	
     private Stage primaryStage;
-    
     private BorderPane rootLayout;
     
     private ObservableList<Client> ClientData = FXCollections.observableArrayList();
@@ -25,12 +28,10 @@ public class Principal extends Application {
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("AddressApp");
+        this.primaryStage.setTitle("Authentification");
        initRootLayout();
        identification();
-
-       
-       
+       VueGlobal();
 
     }
 
@@ -50,7 +51,8 @@ public class Principal extends Application {
         }
     }
     
-    public boolean identification() {
+    
+    public void identification() {
         try {
             // Load person overview.
             FXMLLoader loader = new FXMLLoader();
@@ -68,28 +70,29 @@ public class Principal extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
-		return false;
+	
     }
 
-//    public boolean VueGlobal() {
-//        try {
-//            // Load person overview.
-//            FXMLLoader loader = new FXMLLoader();
-//            loader.setLocation(Principal.class.getResource("/View/VueGlobal.fxml"));
-//            AnchorPane VueGlobal = (AnchorPane) loader.load();
-//
-//            // Set person overview into the center of root layout.
-//            rootLayout.setCenter(VueGlobal);
-//
-//            // Give the controller access to the main app.
-//            VueGlobalController controller = loader.getController();
-//           controller.setMainapp(this);
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//		return false;
-//    }
+    public  void VueGlobal() {
+        try {
+            // Load person overview.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Principal.class.getResource("/View/VueGlobal.fxml"));
+            AnchorPane VueGlobal = (AnchorPane) loader.load();
+
+            // Set person overview into the center of root layout.
+            rootLayout.setCenter(VueGlobal);
+
+            // Give the controller access to the main app.
+            VueGlobalController controller = loader.getController();
+           controller.setMainapp(this);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+        
 
     public Stage getPrimaryStage() {
         return primaryStage;
@@ -106,5 +109,42 @@ public class Principal extends Application {
 
         return ClientData;
     }
+    
+    
+    public void showVueGlobalController(Identification log){
+    	
+    	System.out.println("AFFICHE MOI ça Avant Try");
+    	
+    try {
+    	
+    	System.out.println("AFFICHE MOI 'ShowMainOverview'");	
+    	
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Principal.class.getResource("/view/VueGlobal.fxml"));
+        AnchorPane showVueGlobalController = (AnchorPane) loader.load();
+       
+        VueGlobalController controller = loader.getController();
+        // Set person overview into the center of root layout.
+    	controller.setMainapp(this);
+    	this.setLog(log);
+    	
+    	
+        rootLayout.setCenter(showVueGlobalController);
+  	
+  		} catch (IOException e) {
+    		e.printStackTrace();
+    	
+    		
+    	} 
+    }
 
+     
+    
+	public Identification getLog() {
+		return log;
+	}
+
+	public void setLog(Identification log) {
+		this.log = log;
+	}
 }

@@ -42,12 +42,12 @@ public class Compte_dao {
 			return uncompte;
 	}
 		
-		//methode de mise a jour du client
-		public void compteUpdate(Compte leCompte ) {
+		//methode de mise a jour du retrait
+		public void compteUpdate(int id_compte, int limite_retrait) {
 			Connection connect = Connectdb.initConnection();
 			String sql;
-			sql = "UPDATE compte SET limite_retrait ='"+ leCompte.getLimite_retrait()+"', "
-						+ "WHERE id_compte = '"+leCompte.getId_compte()+"' ";
+			sql = "UPDATE compte SET limite_retrait ='"+ limite_retrait+"' "
+						+ "WHERE id_compte ='"+id_compte+"' ";
 				try {
 				Statement st = connect.createStatement();
 				st.executeUpdate(sql);

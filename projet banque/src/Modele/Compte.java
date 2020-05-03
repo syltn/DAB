@@ -10,11 +10,11 @@ import javafx.beans.value.WritableDoubleValue;
 
 
 public class Compte {
-	private  IntegerProperty id_compte= new SimpleIntegerProperty();
+    private  Integer id_compte ;
 	private  IntegerProperty id_client= new SimpleIntegerProperty();
     private  StringProperty date_creation =new SimpleStringProperty();
     private  DoubleProperty solde =new SimpleDoubleProperty();
-    private  IntegerProperty limite_retrait=new SimpleIntegerProperty();
+    private  Integer limite_retrait ;
     private  IntegerProperty num_compte=new SimpleIntegerProperty();
     private  StringProperty nom =new SimpleStringProperty();
 //    /**
@@ -37,19 +37,19 @@ public class Compte {
 
 
 public Compte(int id_compte,String date_creation, String nom,  double solde, int limite_retrait, int num_compte) {
-	this.id_compte.set(id_compte);
+	this.id_compte = id_compte;
     //this.id_client.set(id_client);
     this.date_creation.set(date_creation);
     this.nom.set(nom);
     this.solde.set(solde);
-    this.limite_retrait.set(limite_retrait);
+    this.limite_retrait = limite_retrait;
     this.num_compte.set(num_compte);
     
 	}
 
 public Compte(int limite_retrait) {
 
-    this.limite_retrait.set(limite_retrait);  
+    this.limite_retrait = limite_retrait;  
 	}
 
 public Compte() {
@@ -57,14 +57,14 @@ public Compte() {
 }
 
 
-public IntegerProperty getId_compte() {
+public Integer getId_compte() {
 	return id_compte;
 }
 
 
 
 
-public void setId_compte(IntegerProperty id_compte) {
+public void setId_compte(Integer id_compte) {
 	this.id_compte = id_compte;
 }
 
@@ -99,14 +99,14 @@ public void setSolde(DoubleProperty solde) {
 
 
 
-public IntegerProperty getLimite_retrait() {
+public Integer getLimite_retrait() {
 	return limite_retrait;
 }
 
 
 
 
-public void setLimite_retrait(IntegerProperty limite_retrait) {
+public void setLimite_retrait(Integer limite_retrait) {
 	this.limite_retrait = limite_retrait;
 }
 

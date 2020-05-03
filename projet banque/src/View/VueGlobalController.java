@@ -73,19 +73,21 @@ public class VueGlobalController {
     private TextField tf_s_solde;
     @FXML
     private TextField tf_s_limite_retrait;
+    @FXML
+    private TextField tf_s_id_compte;
 
     @FXML
     private TableView<Operation>OperationTable;
     @FXML
-    private TableColumn<Operation, Integer> numerocomptecolumn;
+    private TableColumn<Operation, String> numerocomptecolumn;
     @FXML
-    private TableColumn<Operation, Integer> numerooperationcolumn;
+    private TableColumn<Operation, String> numerooperationcolumn;
     @FXML
     private TableColumn<Operation, String> typecolumn;
     @FXML
-    private TableColumn<Operation, Integer> montantcolumn;
+    private TableColumn<Operation, String> montantcolumn;
     @FXML
-    private TableColumn<Operation, Integer> datecreationcolumn;
+    private TableColumn<Operation, String> datecreationcolumn;
 
 
 
@@ -114,7 +116,15 @@ public class VueGlobalController {
     public VueGlobalController() {
     }
  
-    
+    public Principal getMainapp() {
+    	return mainapp;
+    }
+
+
+    public void setMainapp(Principal mainapp) {
+    	this.mainapp = mainapp;
+    }
+
 
 //     Initializes the controller class. This method is automatically called
 //      after the fxml file has been loaded.
@@ -135,13 +145,13 @@ public class VueGlobalController {
         // Listen for selection changes and show the person details when changed.
         ClientTable.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> ClientDetail(newValue));
-
+        initializeop();
     }
 
 
 //Is called by the main application to give a reference back to itself.
 
-;
+
 
 // appele de la methode  + affichage des client present en BDD
 	private void ClientDetail(Client person) {
@@ -200,7 +210,7 @@ public class VueGlobalController {
 		return resultatlist;
 }
 
-	// appele de la methode  + attribution au bouton de mise a jour du client// plus message d'erreur en cas de non selection
+	// appele de la methode  + attribution au bouton de mise a jour du client
 	@FXML
 	private void bt_updateClient () {
 
@@ -344,17 +354,22 @@ System.out.println(selectedIndex);
 // appele de la methode  + attribution au bouton de recherche du compte
 		@FXML
 	private void bt_searchCount () {
-		    	int numS = Integer.parseInt(tf_s_num.getText());
-		    	if (numS>=0 ) {
-		     	Compte_dao cldao = new Compte_dao();
-		    	Compte compteTr = cldao.resultatSearchnum(numS);
-		    	//tf_s_num_compte.textProperty().bind(compteTr.getNum_compte().asString());
-		    	tf_s_nom_compte.textProperty().bind(compteTr.getNom());
-		    	//tf_s_nom_compte.textProperty().bind(compteTr.getId_compte().asString());
-		    	tf_s_solde.textProperty().bind(compteTr.getSolde().asString());
-		    	tf_s_limite_retrait.textProperty().bind(compteTr.getLimite_retrait().asString());
-		    	tf_s_date_creation.textProperty().bind(compteTr.getDate_creation());
-		    	tf_s_num.clear();
+				String temp = tf_s_num.getText();
+				boolean isDisabled= temp.isEmpty();
+				if (!isDisabled) {
+					int numS = Integer.parseInt(temp);
+
+			     	Compte_dao cldao = new Compte_dao();
+			    	Compte compteTr = cldao.resultatSearchnum(numS);
+			    	tf_s_nom_compte.textProperty().bind(compteTr.getNom());
+			    	tf_s_solde.textProperty().bind(compteTr.getSolde().asString());
+			    	String tempo = Integer.toString(compteTr.getLimite_retrait());
+			    	tf_s_limite_retrait.setText(tempo);
+			    	tf_s_date_creation.textProperty().bind(compteTr.getDate_creation());
+			    	String tempo2 = Integer.toString(compteTr.getId_compte());
+			    	System.out.println("tempo2 : "+ tempo2);
+			    	tf_s_limite_retrait.setText(tempo);
+			    	tf_s_id_compte.setText(tempo2);
 
 		    	}else {
 
@@ -369,45 +384,78 @@ System.out.println(selectedIndex);
 		    	}
 		}
 		
-// appele de la methode  + attribution au bouton de recherche des operations
+		
+// appele de la methode  + attribution au bouton de mise a jour du compte solde retrait
+		@FXML
+		private void bt_updateCompte () {
+
+		if (tf_s_limite_retrait != null) {
+			
+			int limite_retrait = Integer.parseInt(tf_s_limite_retrait.getText());
+			int id_compte = Integer.parseInt(tf_s_id_compte.getText());
+			Compte_dao cldao = new Compte_dao();
+			cldao.compteUpdate(id_compte,limite_retrait); //Maj dans la BDD num compte + nouvelle limite 
+			
+			tf_s_num_compte.setText("");
+			tf_s_nom_compte.clear();
+			tf_s_date_creation.clear();
+			tf_s_solde.clear();
+			
+		} else{
+		    // Nothing selected.
+		    Alert alert = new Alert(AlertType.WARNING);
+		    alert.initOwner(mainapp.getPrimaryStage());
+		    alert.setTitle("Aucune selection");
+		    alert.setHeaderText("Pas de compte affiché");
+		    alert.setContentText("Merci de recherché(e) un compte client(e).");
+
+		    alert.showAndWait();
+			}
+		}
+
+		// appele de la methode  + attribution au bouton de recherche des operations
 		@FXML
 		private void bt_searchOpe () {
 			
+			String temp = tf_s_num_compte.getText();
+			boolean isDisabled= temp.isEmpty();
+			if (!isDisabled) {
+				
 		    	ObservableList<Operation> searchlistope = FXCollections.observableArrayList();
 		    	int numS = Integer.parseInt(tf_s_num_compte.getText());
 		    	Operation_dao cldao = new Operation_dao();
 		    	searchlistope = cldao.resultatSearchOpe(numS);
 		    	OperationTable.setItems(searchlistope);
 		    	tf_s_num_compte.clear();
-		    	
+			}else {
+
+	    		Alert alert = new Alert(AlertType.WARNING);
+		        alert.initOwner(mainapp.getPrimaryStage());
+		        alert.setTitle("Erreur de selection");
+		        alert.setHeaderText("Erreur de recherche");
+		        alert.setContentText("Merci de rentrée un numero de compte.");
+
+
+		        alert.showAndWait();
+	    	}
 		}
 
-// appele de la methode  + attribution au bouton de mise a jour du compte solde retrait
-@FXML
-private void bt_updateCompte () {
-
-if (tf_s_limite_retrait != null) {
-	
-
-	int limite_retrait = Integer.parseInt(tf_s_num.getText());
-	
-	Compte uncompte = new Compte(limite_retrait);
+	    @FXML
+	    private void initializeop() {
 
 
-	Compte_dao cldao = new Compte_dao();
-	cldao.compteUpdate(uncompte); //Maj dans la BDD
-	
-} else{
-    // Nothing selected.
-    Alert alert = new Alert(AlertType.WARNING);
-    alert.initOwner(mainapp.getPrimaryStage());
-    alert.setTitle("Aucune selection");
-    alert.setHeaderText("Pas de client selectionné(e)");
-    alert.setContentText("Merci de selectionné(e) un(e) client(e) dans la liste.");
+	    	numerocomptecolumn.setCellValueFactory(cellData -> cellData.getValue().numerocompteProperty());
+	    	numerooperationcolumn.setCellValueFactory(cellData -> cellData.getValue().numerooperationProperty());
+	    	typecolumn.setCellValueFactory(cellData -> cellData.getValue().typeProperty());
+	    	montantcolumn.setCellValueFactory(cellData -> cellData.getValue().montantProperty());
+	    	datecreationcolumn.setCellValueFactory(cellData -> cellData.getValue().datecreationProperty());
+		
 
-    alert.showAndWait();
-	}
 }
 
 }
+
+
+
+
 
