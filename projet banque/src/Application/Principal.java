@@ -51,7 +51,6 @@ public class Principal extends Application {
         }
     }
     
-    
     public void identification() {
         try {
             // Load person overview.
@@ -93,7 +92,6 @@ public class Principal extends Application {
 
     }
         
-
     public Stage getPrimaryStage() {
         return primaryStage;
     }
@@ -109,8 +107,7 @@ public class Principal extends Application {
 
         return ClientData;
     }
-    
-    
+      
     public void showVueGlobalController(Identification log){
     	
     	System.out.println("AFFICHE MOI ça Avant Try");
@@ -138,8 +135,6 @@ public class Principal extends Application {
     	} 
     }
 
-     
-    
 	public Identification getLog() {
 		return log;
 	}
@@ -147,4 +142,6 @@ public class Principal extends Application {
 	public void setLog(Identification log) {
 		this.log = log;
 	}
+
+
 }

@@ -17,6 +17,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -76,6 +77,7 @@ public class VueGlobalController {
     @FXML
     private TextField tf_s_id_compte;
 
+    //colonne du tableau stat
     @FXML
     private TableView<Operation>OperationTable;
     @FXML
@@ -90,7 +92,7 @@ public class VueGlobalController {
     private TableColumn<Operation, String> datecreationcolumn;
 
 
-
+//champ des operations page operation
     @FXML
     private TextField tf_id_operation;
     @FXML
@@ -105,14 +107,21 @@ public class VueGlobalController {
     @FXML 
     private TextField tf_resultatidCompteClient;
 
- 
+@FXML
+	private ComboBox<?> lf_annee;
+@FXML
+	private ComboBox<?> lf_mois;
+@FXML
+	private ComboBox<?> lf_ville;
+@FXML
+	private TextField lf_stat_result;
 
     // Reference to the main application.
     private Principal mainapp;
-    /**
-     * The constructor.
-     * The constructor is called before the initialize() method.
-     */
+    
+//      The constructor.
+//      The constructor is called before the initialize() method.
+     
     public VueGlobalController() {
     }
  
@@ -120,15 +129,12 @@ public class VueGlobalController {
     	return mainapp;
     }
 
-
     public void setMainapp(Principal mainapp) {
     	this.mainapp = mainapp;
     }
 
-
-//     Initializes the controller class. This method is automatically called
-//      after the fxml file has been loaded.
-
+//Initializes the controller class. This method is automatically called
+//after the fxml file has been loaded.
     @FXML
    private void initialize() {
         // Initialize the person table with the four columns.
@@ -147,11 +153,6 @@ public class VueGlobalController {
                 (observable, oldValue, newValue) -> ClientDetail(newValue));
         initializeop();
     }
-
-
-//Is called by the main application to give a reference back to itself.
-
-
 
 // appele de la methode  + affichage des client present en BDD
 	private void ClientDetail(Client person) {
@@ -180,7 +181,7 @@ public class VueGlobalController {
 	    }
 	}
 	
-	//methode de recuperation d'id_compte du client
+//methode de recuperation d'id_compte du client
 	public String resultatidCompteClient(String nomclient) {
 		
 		String resultatlist="";
@@ -210,7 +211,7 @@ public class VueGlobalController {
 		return resultatlist;
 }
 
-	// appele de la methode  + attribution au bouton de mise a jour du client
+// appele de la methode  + attribution au bouton de mise a jour du client
 	@FXML
 	private void bt_updateClient () {
 
@@ -350,7 +351,6 @@ System.out.println(selectedIndex);
 		    }
 		}
 
-
 // appele de la methode  + attribution au bouton de recherche du compte
 		@FXML
 	private void bt_searchCount () {
@@ -384,10 +384,9 @@ System.out.println(selectedIndex);
 		    	}
 		}
 		
-		
 // appele de la methode  + attribution au bouton de mise a jour du compte solde retrait
 		@FXML
-		private void bt_updateCompte () {
+	private void bt_updateCompte () {
 
 		if (tf_s_limite_retrait != null) {
 			
@@ -413,9 +412,21 @@ System.out.println(selectedIndex);
 			}
 		}
 
-		// appele de la methode  + attribution au bouton de recherche des operations
+// initialisation des colonne de la page operation
+@FXML
+	private void initializeop() {
+
+
+			    	numerocomptecolumn.setCellValueFactory(cellData -> cellData.getValue().numerocompteProperty());
+			    	numerooperationcolumn.setCellValueFactory(cellData -> cellData.getValue().numerooperationProperty());
+			    	typecolumn.setCellValueFactory(cellData -> cellData.getValue().typeProperty());
+			    	montantcolumn.setCellValueFactory(cellData -> cellData.getValue().montantProperty());
+			    	datecreationcolumn.setCellValueFactory(cellData -> cellData.getValue().datecreationProperty());
+		}
+
+// appele de la methode  + attribution au bouton de recherche des operations
 		@FXML
-		private void bt_searchOpe () {
+	private void bt_searchOpe () {
 			
 			String temp = tf_s_num_compte.getText();
 			boolean isDisabled= temp.isEmpty();
@@ -440,22 +451,7 @@ System.out.println(selectedIndex);
 	    	}
 		}
 
-	    @FXML
-	    private void initializeop() {
-
-
-	    	numerocomptecolumn.setCellValueFactory(cellData -> cellData.getValue().numerocompteProperty());
-	    	numerooperationcolumn.setCellValueFactory(cellData -> cellData.getValue().numerooperationProperty());
-	    	typecolumn.setCellValueFactory(cellData -> cellData.getValue().typeProperty());
-	    	montantcolumn.setCellValueFactory(cellData -> cellData.getValue().montantProperty());
-	    	datecreationcolumn.setCellValueFactory(cellData -> cellData.getValue().datecreationProperty());
+// appele de methode au champ de recherche
 		
-
 }
-
-}
-
-
-
-
 

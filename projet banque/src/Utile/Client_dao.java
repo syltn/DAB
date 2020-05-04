@@ -1,20 +1,15 @@
 package Utile;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
 import Modele.Client;
-import Modele.Compte;
-import Modele.Operation;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class Client_dao {
 
-
-	// methode qui recupere et retourne une liste de client
+// methode qui recupere et retourne une liste de client
 	public ObservableList<Client> trouverTousClients() {
 
 		ObservableList<Client> listClients = FXCollections.observableArrayList();
@@ -43,7 +38,7 @@ public class Client_dao {
 		return listClients;
 	}
 
-	//methode de mise a jour du client
+//methode de mise a jour du client
 	public void clientUpdate(Client leClient ) {
 		Connection connect = Connectdb.initConnection();
 		String sql;
@@ -64,7 +59,7 @@ public class Client_dao {
 
 	}
 
-	//methode de recherche du client
+//methode de recherche du client
 	public ObservableList<Client> resultatSearch(String nomSearch, String prenomSearch, String villeSearch) {
 
 		ObservableList<Client> resultatlist = FXCollections.observableArrayList();
@@ -95,8 +90,8 @@ public class Client_dao {
 		return resultatlist;
 }
 
-	//methode de creation du client
-public ObservableList<Client> clientcreat(Client unClient) {
+//methode de creation du client
+	public ObservableList<Client> clientcreat(Client unClient) {
 	Connection connect = Connectdb.initConnection();
 	String nomClient=unClient.getnom();
 	String prenomClient= unClient.getprenom();
@@ -117,8 +112,8 @@ public ObservableList<Client> clientcreat(Client unClient) {
 	return null;
 }
 
-	//methode de suppression du client
-public ObservableList<Client> clientsuppr(Client unClient) {
+//methode de suppression du client
+	public ObservableList<Client> clientsuppr(Client unClient) {
 Connection connect = Connectdb.initConnection();
 int id_client=unClient.getid_client();
 
@@ -134,9 +129,8 @@ try {
 return null;
 }
 
-
 //methode de recuperation d'id_compte du client
-public String resultatidCompteClient(String nomclient) {
+	public String resultatidCompteClient(String nomclient) {
 			
 			String resultatlist="";
 			Connection connect = Connectdb.initConnection();

@@ -1,14 +1,12 @@
 package View;
 
-import java.awt.Color;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import Application.Principal;
-import Modele.Identification;
 import Utile.Connectdb;
-import Utile.connection_dao;
+import Utile.Connection_dao;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -23,7 +21,6 @@ public class identificationController {
 	@FXML
 	private Label tf_lblStatus;
 	
-	
 	private Principal mainapp;
 
 	public Principal getMainapp() {
@@ -37,12 +34,12 @@ public class identificationController {
 	Connection con = Connectdb.initConnection();
 	PreparedStatement preparedStatement = null;
 	ResultSet resultSet = null;
-
 	
+//bouton de login + methode 
 	@FXML
 	public void bt_logIn(ActionEvent event) {
 		
-		connection_dao pud = new connection_dao();
+		Connection_dao pud = new Connection_dao();
 		String email = tf_login.getText().toString();
 		String password = tf_mdp.getText().toString();
 		System.out.println("Entre Login");
@@ -89,13 +86,14 @@ public class identificationController {
 		}
 	
 	}
-	
 
+//bouton cancel efface les champs
 @FXML
-private void bt_Cancel () {
+	private void bt_Cancel () {
 
 	tf_login.clear();
 	tf_mdp.clear();
 
 }
+
 }
