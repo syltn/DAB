@@ -17,15 +17,44 @@ public class Stats_dao {
 	public int calculresultatStat(String lf_annee, String lf_mois, String lf_ville) {
 		int lf_stat_result = 0;
 		Connection connect = Connectdb.initConnection();
-		String sql;
-				sql =  
+		String annee = lf_annee;
+		String mois = lf_mois;
+		String ville = lf_ville;
+		String sql =  null ;
+				//sql=  
 		//"SELECT sum(montant) FROM operation INNER JOIN compte ON operation.id_compte=compte.id_compte INNER JOIN client ON compte.id_client=client.id_client where year (date) = '2020' and month (date) = '04' and operation = 'credit' and Ville = 'Lannemezan'";
-					"SELECT sum(montant) "
-					+"FROM operation INNER JOIN compte ON operation.id_compte=compte.id_compte INNER JOIN client ON compte.id_client=client.id_client"
-					+" where operation = 'credit' "
-						+"and year (date) = '"+lf_annee+"'"
-						+"and month (date) = '"+lf_mois+"'"
-						+" and Ville = '"+lf_ville+"'";
+//					"SELECT sum(montant) "
+//					+"FROM operation INNER JOIN compte ON operation.id_compte=compte.id_compte INNER JOIN client ON compte.id_client=client.id_client"
+//					+" where operation = 'credit' "
+//						+"and year (date) = '"+lf_annee+"'"
+//						+"and month (date) = '"+lf_mois+"'"
+//						+" and Ville = '"+lf_ville+"'";
+						
+						if (!annee.isEmpty()){
+				    if (!mois.isEmpty()){
+				        if (!ville.isEmpty()){
+				            sql = "SELECT sum(montant) "
+									+"FROM operation INNER JOIN compte ON operation.id_compte=compte.id_compte INNER JOIN client ON compte.id_client=client.id_client where year (date) = '"+lf_annee+"' and month (date) = '"+lf_mois+"' and Ville = '"+lf_ville+"' and operation = 'credit'";
+				        }
+				        else{
+				            sql = "SELECT sum(montant) "
+									+"FROM operation where year (date) = '"+lf_annee+"' and month (date) = '"+lf_mois+"' and operation = 'credit'";
+				        }
+				    }
+				    else if (!ville.isEmpty()){
+				        sql = "SELECT sum(montant) "
+									+"FROM operation INNER JOIN compte ON operation.id_compte=compte.id_compte INNER JOIN client ON compte.id_client=client.id_client where year (date) = '"+lf_annee+"' and Ville = '"+lf_ville+"' and operation = 'credit'";
+				    }
+				    else {
+				        sql = "SELECT sum(montant) "
+									+"FROM operation where year (date) = '"+lf_annee+"' and operation = 'credit'";
+				    }
+				}
+				else if (!ville.isEmpty()){
+				    sql = "SELECT sum(montant) "
+									+"FROM operation INNER JOIN compte ON operation.id_compte=compte.id_compte INNER JOIN client ON compte.id_client=client.id_client where Ville = '"+lf_ville+"' and operation = 'credit'";
+				}
+						
 				try {
 					Statement st = connect.createStatement();
 					ResultSet rs = st.executeQuery(sql);

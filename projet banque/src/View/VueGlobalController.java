@@ -418,11 +418,11 @@ System.out.println(selectedIndex);
 	private void initializeop() {
 
 
-			    	numerocomptecolumn.setCellValueFactory(cellData -> cellData.getValue().numerocompteProperty());
-			    	numerooperationcolumn.setCellValueFactory(cellData -> cellData.getValue().numerooperationProperty());
-			    	typecolumn.setCellValueFactory(cellData -> cellData.getValue().typeProperty());
-			    	montantcolumn.setCellValueFactory(cellData -> cellData.getValue().montantProperty());
-			    	datecreationcolumn.setCellValueFactory(cellData -> cellData.getValue().datecreationProperty());
+		    numerocomptecolumn.setCellValueFactory(cellData -> cellData.getValue().numerocompteProperty());
+			numerooperationcolumn.setCellValueFactory(cellData -> cellData.getValue().numerooperationProperty());
+		   	typecolumn.setCellValueFactory(cellData -> cellData.getValue().typeProperty());
+		   	montantcolumn.setCellValueFactory(cellData -> cellData.getValue().montantProperty());
+		   	datecreationcolumn.setCellValueFactory(cellData -> cellData.getValue().datecreationProperty());
 		}
 
 // appele de la methode  + attribution au bouton de recherche des operations
@@ -456,21 +456,21 @@ System.out.println(selectedIndex);
 
 @FXML
 	public void InitializeStats_annee() {
-			ObservableList <String> test = FXCollections.observableArrayList();
-			//test.addAll(mainapp.getStatAnnee());
-			test.addAll("1999", "2020");
-			System.out.println(test);
-			lf_annee.setItems(test);
+		ObservableList <String> test = FXCollections.observableArrayList();
+		//test.addAll(mainapp.getStatAnnee());
+		test.addAll("", "1999", "2020");
+		System.out.println(test);
+		lf_annee.setItems(test);
 		}
 
 // appele de methode au champ de  stat mois
 @FXML
 	public void InitializeStats_mois() {
-	ObservableList <String> test = FXCollections.observableArrayList();
-	//test.addAll(mainapp.getStatMois());
-	test.addAll("01", "02", "03", "04", "06");
-	System.out.println(test);
-	lf_mois.setItems(test);
+		ObservableList <String> test = FXCollections.observableArrayList();
+		//test.addAll(mainapp.getStatMois());
+		test.addAll("", "01", "02", "03", "04", "06");
+		System.out.println(test);
+		lf_mois.setItems(test);
 			//lf_mois.setItems(mainapp.getStatMois());
 			
 		}
@@ -480,7 +480,7 @@ System.out.println(selectedIndex);
 	public void InitializeStats_ville() {
 		ObservableList <String> test = FXCollections.observableArrayList();
      	//test.addAll(mainapp.getStatVille());
-		test.addAll("Nanterre", "Marseille", "Lannemezan", "Luchon", "Toulouse");
+		test.addAll("", "Nanterre", "Marseille", "Lannemezan", "Luchon", "Toulouse");
 		System.out.println(test);
 		lf_ville.setItems(test);
 			//lf_ville.setItems(mainapp.getStatVille());
