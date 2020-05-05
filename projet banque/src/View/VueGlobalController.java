@@ -13,16 +13,18 @@ import Utile.Client_dao;
 import Utile.Compte_dao;
 import Utile.Connectdb;
 import Utile.Operation_dao;
+import Utile.Stats_dao;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.SelectionModel;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-
 
 public class VueGlobalController {
     private static final TableView<Client> CompteTable = null;
@@ -108,7 +110,7 @@ public class VueGlobalController {
     @FXML 
     private TextField tf_resultatidCompteClient;
 
-@FXML
+    @FXML
 	private ComboBox<String> lf_annee;
 @FXML
 	private ComboBox<String> lf_mois;
@@ -365,10 +367,11 @@ System.out.println(selectedIndex);
 			    	tf_s_limite_retrait.setText(tempo);
 			    	tf_s_date_creation.textProperty().bind(compteTr.getDate_creation());
 			    	String tempo2 = Integer.toString(compteTr.getId_compte());
-			    	System.out.println("tempo2 : "+ tempo2);
 			    	tf_s_limite_retrait.setText(tempo);
 			    	tf_s_id_compte.setText(tempo2);
-
+			    	
+					tf_s_num.clear();
+			    	
 		    	}else {
 
 		    		Alert alert = new Alert(AlertType.WARNING);
@@ -391,13 +394,13 @@ System.out.println(selectedIndex);
 			int limite_retrait = Integer.parseInt(tf_s_limite_retrait.getText());
 			int id_compte = Integer.parseInt(tf_s_id_compte.getText());
 			Compte_dao cldao = new Compte_dao();
-			cldao.compteUpdate(id_compte,limite_retrait); //Maj dans la BDD num compte + nouvelle limite 
+			cldao.compteUpdate(id_compte,limite_retrait); //Maj dans la BDD via num compte + nouvelle limite 
 			
-			tf_s_num_compte.setText("");
-			tf_s_nom_compte.clear();
-			tf_s_date_creation.clear();
-			tf_s_solde.clear();
-			
+//			tf_s_num_compte.setText("");
+//			tf_s_nom_compte.clear();
+//			tf_s_date_creation.clear();
+//			tf_s_solde.clear();
+
 		} else{
 		    // Nothing selected.
 		    Alert alert = new Alert(AlertType.WARNING);
@@ -450,23 +453,54 @@ System.out.println(selectedIndex);
 		}
 
 // appele de methode au champ de stat annee
+
 @FXML
 	public void InitializeStats_annee() {
-			lf_annee.setItems(mainapp.getStatAnnee());
+			ObservableList <String> test = FXCollections.observableArrayList();
+			//test.addAll(mainapp.getStatAnnee());
+			test.addAll("1999", "2020");
+			System.out.println(test);
+			lf_annee.setItems(test);
 		}
 
-// appele de methode au champ de  stat annee
+// appele de methode au champ de  stat mois
 @FXML
 	public void InitializeStats_mois() {
-			lf_mois.setItems(mainapp.getStatMois());
+	ObservableList <String> test = FXCollections.observableArrayList();
+	//test.addAll(mainapp.getStatMois());
+	test.addAll("01", "02", "03", "04", "06");
+	System.out.println(test);
+	lf_mois.setItems(test);
+			//lf_mois.setItems(mainapp.getStatMois());
 			
 		}
 
-// appele de methode au champ de  stat annee
+// appele de methode au champ de  stat ville
 
 	public void InitializeStats_ville() {
-			lf_ville.setItems(mainapp.getStatVille());
+		ObservableList <String> test = FXCollections.observableArrayList();
+     	//test.addAll(mainapp.getStatVille());
+		test.addAll("Nanterre", "Marseille", "Lannemezan", "Luchon", "Toulouse");
+		System.out.println(test);
+		lf_ville.setItems(test);
+			//lf_ville.setItems(mainapp.getStatVille());
 		}
 
+//appele methode  + attribution bouton calcul stat
+	@FXML
+	private void bt_calcul () {
+     	Stats_dao cldao = new Stats_dao();
+     	String annee_temp = lf_annee.getValue();
+     	String mois_temp = lf_mois.getValue();
+     	String ville_temp = lf_ville.getValue();
+		//System.out.println("Annee : " + annee_temp);
+     	int temp = cldao.calculresultatStat(annee_temp, mois_temp, ville_temp);
+		String tempo = Integer.toString(temp);
+    	lf_stat_result.setText(tempo);
+
+		
+
+
+	}
 }
 

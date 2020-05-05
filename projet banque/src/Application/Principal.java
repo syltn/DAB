@@ -34,7 +34,13 @@ public class Principal extends Application {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Authentification");
        initRootLayout();
-       identification();
+	   	annee.clear();
+	   	Stats_dao anneedao = new Stats_dao();
+	   	annee.addAll(anneedao.resultatStatAnnee());
+	   	System.out.println(annee);
+	   	
+	    identification();
+
       // VueGlobal();
 
     }

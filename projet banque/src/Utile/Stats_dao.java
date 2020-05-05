@@ -14,19 +14,23 @@ import javafx.scene.control.TextField;
 public class Stats_dao {
 
 //methode de recherche global
-	public String resultatStat(String lf_annee, String lf_mois, String lf_ville) {
+	public int calculresultatStat(String lf_annee, String lf_mois, String lf_ville) {
+		int lf_stat_result = 0;
 		Connection connect = Connectdb.initConnection();
 		String sql;
-				sql =  "SELECT sum(montant) "
-					+"FROM operation"
-					+"where year (date) = '"+lf_annee+"'"
+				sql =  
+		//"SELECT sum(montant) FROM operation INNER JOIN compte ON operation.id_compte=compte.id_compte INNER JOIN client ON compte.id_client=client.id_client where year (date) = '2020' and month (date) = '04' and operation = 'credit' and Ville = 'Lannemezan'";
+					"SELECT sum(montant) "
+					+"FROM operation INNER JOIN compte ON operation.id_compte=compte.id_compte INNER JOIN client ON compte.id_client=client.id_client"
+					+" where operation = 'credit' "
+						+"and year (date) = '"+lf_annee+"'"
 						+"and month (date) = '"+lf_mois+"'"
-						+"and Ville = '"+lf_ville+"'and operation = 'credit'";
+						+" and Ville = '"+lf_ville+"'";
 				try {
 					Statement st = connect.createStatement();
 					ResultSet rs = st.executeQuery(sql);
 					while (rs.next()) {
-						int lf_stat_result=rs.getInt(sql);
+						 lf_stat_result=rs.getInt("sum(montant)");
 						
 					}
 				}catch ( Exception e) {
@@ -34,84 +38,10 @@ public class Stats_dao {
 						e.printStackTrace();
 				}
 				//return uncompte;
-				return sql;		
+				return lf_stat_result;		
 	}
 
-////methode de recherche annee
-//		public Compte resultatStatAnnee(String lf_annee) {
-//			Connection connect = Connectdb.initConnection();
-//			String sql;
-//					sql =  "SELECT date_format(date, \"%Y\") \r\n" + 
-//							"FROM banque.operation\r\n" + 
-//							"Group By date_format(date, \"%Y\")";
-//					try {
-//						Statement st = connect.createStatement();
-//						ResultSet rs = st.executeQuery(sql);
-//						while (rs.next()) {
-//							int id_compte=rs.getInt("id_compte");
-//							int limite_retrait=rs.getInt("limite_retrait");
-//							int num_compte=rs.getInt("num_compte");
-//							}
-//					}catch ( Exception e) {
-//						System.err.println(e.getMessage ());
-//							e.printStackTrace();
-//					}
-//					//return uncompte;
-//					return resultatStatAnnee(lf_annee);		
-//		}
 
-////methode de recherche mois
-//		public Compte resultatStatMois(String lf_mois) {
-//			Connection connect = Connectdb.initConnection();
-//			String sql;
-//					sql =  "SELECT date_format(date, \"%M\")" + 
-//							"FROM banque.operation" + 
-//							"Group By date_format (date, \"%M\"), date_format (date, \"%m\")" + 
-//							"order by date_format (date, \"%m\")";
-//					try {
-//						Statement st = connect.createStatement();
-//						ResultSet rs = st.executeQuery(sql);
-//						while (rs.next()) {
-//							int id_compte=rs.getInt("id_compte");
-//							int limite_retrait=rs.getInt("limite_retrait");
-//							int num_compte=rs.getInt("num_compte");
-//
-//							}
-//					}catch ( Exception e) {
-//						System.err.println(e.getMessage ());
-//							e.printStackTrace();
-//					}
-//					//return uncompte;
-//					return resultatStatMois(lf_mois);		
-//		}		
-		
-////methode de recherche ville
-//		public Compte resultatStatVille(String lf_ville) {
-//					Connection connect = Connectdb.initConnection();
-//					String sql;
-//							sql = "SELECT ville \r\n" + 
-//									"		FROM operation\r\n" + 
-//									"		INNER JOIN compte ON operation.id_compte=compte.id_compte" + 
-//									"		INNER JOIN client ON compte.id_client=client.id_client" + 
-//									"        group by ville" + 
-//									"        order by ville";
-//							try {
-//								Statement st = connect.createStatement();
-//								ResultSet rs = st.executeQuery(sql);
-//								while (rs.next()) {
-//									String resultatStatVille=rs.getString("lf_ville");
-//									}
-//							}catch ( Exception e) {
-//								System.err.println(e.getMessage ());
-//									e.printStackTrace();
-//							}
-//							//return uncompte;
-//							return resultatStatVille(lf_ville);		
-//				}
-		
-		
-		
-		
 		
 		// methode qui recupere et retourne une liste d'année
 		public ObservableList<String> resultatStatAnnee() {
@@ -119,14 +49,12 @@ public class Stats_dao {
 			ObservableList<String> resultatStatAnnee = FXCollections.observableArrayList();
 			Connection connect = Connectdb.initConnection();
 			String sql;
-			sql =   "SELECT date_format(date, \"%Y\")as date " + 
-					"FROM banque.operation" + 
-					"Group By date_format(date, \"%Y\")";
+			sql =   "SELECT date_format(date, '%Y') as date FROM banque.operation Group By date_format(date, '%Y')";
 			try {
 				Statement st = connect.createStatement();
 				ResultSet rs = st.executeQuery(sql);
 				while (rs.next()) {
-		
+					System.out.println("année : " + rs.getString("date"));
 					resultatStatAnnee.add(rs.getString("date"));
 				}
 			}catch ( Exception e) {
@@ -141,10 +69,9 @@ public class Stats_dao {
 			ObservableList<String> resultatStatMois = FXCollections.observableArrayList();
 			Connection connect = Connectdb.initConnection();
 			String sql;
-			sql =   "SELECT date_format(date, \"%M\")" + 
-					"FROM banque.operation" + 
-					"Group By date_format (date, \"%M\"), date_format (date, \"%m\")" + 
-					"order by date_format (date, \"%m\")";
+			sql =   "SET lc_time_names = 'fr_FR'; SELECT date_format (date, '%m') FROM banque.operation Group By date_format (date, '%m'), date_format (date, '%m') order by date_format (date, '%m')";
+		//	sql =   "SET lc_time_names = 'fr_FR'; SELECT date_format (date, '%M') FROM banque.operation Group By date_format (date, '%M'), date_format (date, '%m') order by date_format (date, '%m')";
+
 			try {
 				Statement st = connect.createStatement();
 				ResultSet rs = st.executeQuery(sql);
@@ -164,18 +91,15 @@ public class Stats_dao {
 			ObservableList<String> resultatStatVille = FXCollections.observableArrayList();
 			Connection connect = Connectdb.initConnection();
 			String sql;
-			sql =   "SELECT ville \r\n" + 
-					"		FROM operation\r\n" + 
-					"		INNER JOIN compte ON operation.id_compte=compte.id_compte" + 
-					"		INNER JOIN client ON compte.id_client=client.id_client" + 
-					"        group by ville" + 
-					"        order by ville";
+			sql =   "SELECT ville" + 
+					"FROM operation INNER JOIN compte ON operation.id_compte=compte.id_compte INNER JOIN client ON compte.id_client=client.id_client" + 
+					"group by ville order by ville";
 			try {
 				Statement st = connect.createStatement();
 				ResultSet rs = st.executeQuery(sql);
 				while (rs.next()) {
 		
-					resultatStatVille.add(rs.getString("mois"));
+					resultatStatVille.add(rs.getString("Ville"));
 				}
 			}catch ( Exception e) {
 				System.err.println(e.getMessage ());

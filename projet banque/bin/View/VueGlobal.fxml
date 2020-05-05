@@ -175,7 +175,7 @@
                         <Label layoutX="375.0" layoutY="110.0" prefHeight="36.0" prefWidth="45.0" text="Ville : " AnchorPane.leftAnchor="375.0" />
                         <ComboBox fx:id="lf_ville" layoutX="375.0" layoutY="150.0" prefWidth="150.0" AnchorPane.leftAnchor="375.0" />
                         <ComboBox fx:id="lf_mois" layoutX="203.0" layoutY="150.0" prefWidth="150.0" AnchorPane.leftAnchor="203.0" />
-                        <Button layoutX="539.0" layoutY="78.0" mnemonicParsing="false" text="Calculer" />
+                        <Button layoutX="539.0" layoutY="78.0" mnemonicParsing="false" onAction="#bt_calcul" text="Calculer" />
                      </children></AnchorPane>
               </content>
             </Tab>
