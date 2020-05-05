@@ -4,6 +4,7 @@ import java.io.IOException;
 import Modele.Client;
 import Modele.Identification;
 import Utile.Client_dao;
+import Utile.Stats_dao;
 import View.VueGlobalController;
 import View.identificationController;
 import javafx.application.Application;
@@ -16,6 +17,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+
 public class Principal extends Application {
 
 	private Identification log;
@@ -24,14 +26,16 @@ public class Principal extends Application {
     private BorderPane rootLayout;
     
     private ObservableList<Client> ClientData = FXCollections.observableArrayList();
-
+    private ObservableList<String> annee = FXCollections.observableArrayList();
+    private ObservableList<String> mois = FXCollections.observableArrayList();
+    private ObservableList<String> ville = FXCollections.observableArrayList();
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Authentification");
        initRootLayout();
        identification();
-       VueGlobal();
+      // VueGlobal();
 
     }
 
@@ -55,13 +59,10 @@ public class Principal extends Application {
         try {
             // Load person overview.
             FXMLLoader loader = new FXMLLoader();
-  
             loader.setLocation(Principal.class.getResource("/View/identification.fxml"));
             AnchorPane identification = (AnchorPane) loader.load();
-
             // Set person overview into the center of root layout.
             rootLayout.setCenter(identification);
-
             // Give the controller access to the main app.
             identificationController controller = (identificationController) loader.getController();
            controller.setMainapp(this);
@@ -78,14 +79,11 @@ public class Principal extends Application {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Principal.class.getResource("/View/VueGlobal.fxml"));
             AnchorPane VueGlobal = (AnchorPane) loader.load();
-
             // Set person overview into the center of root layout.
-            rootLayout.setCenter(VueGlobal);
-
             // Give the controller access to the main app.
             VueGlobalController controller = loader.getController();
            controller.setMainapp(this);
-
+           rootLayout.setCenter(VueGlobal);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -104,10 +102,30 @@ public class Principal extends Application {
     	ClientData.clear();
     	Client_dao cldao = new Client_dao();
      	ClientData.addAll(cldao.trouverTousClients());
-
         return ClientData;
     }
       
+    public ObservableList<String>  getStatAnnee() {
+    	annee.clear();
+    	Stats_dao anneedao = new Stats_dao();
+    	annee.addAll(anneedao.resultatStatAnnee());
+        return annee;
+    }
+    
+    public ObservableList<String>  getStatMois() {
+    	mois.clear();
+    	Stats_dao moisdao = new Stats_dao();
+    	mois.addAll(moisdao.resultatStatMois());
+        return annee;
+    }
+    
+    public ObservableList<String>  getStatVille() {
+    	ville.clear();
+    	Stats_dao villedao = new Stats_dao();
+    	ville.addAll(villedao.resultatStatVille());
+        return ville;
+    }
+    
     public void showVueGlobalController(Identification log){
     	
     	System.out.println("AFFICHE MOI ça Avant Try");
@@ -144,4 +162,5 @@ public class Principal extends Application {
 	}
 
 
+	
 }

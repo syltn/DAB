@@ -3,6 +3,7 @@ package View;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.List;
 
 import Application.Principal;
 import Modele.Client;
@@ -108,11 +109,11 @@ public class VueGlobalController {
     private TextField tf_resultatidCompteClient;
 
 @FXML
-	private ComboBox<?> lf_annee;
+	private ComboBox<String> lf_annee;
 @FXML
-	private ComboBox<?> lf_mois;
+	private ComboBox<String> lf_mois;
 @FXML
-	private ComboBox<?> lf_ville;
+	private ComboBox<String> lf_ville;
 @FXML
 	private TextField lf_stat_result;
 
@@ -152,6 +153,9 @@ public class VueGlobalController {
         ClientTable.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> ClientDetail(newValue));
         initializeop();
+        InitializeStats_annee();
+        InitializeStats_mois();
+        InitializeStats_ville();
     }
 
 // appele de la methode  + affichage des client present en BDD
@@ -218,7 +222,6 @@ public class VueGlobalController {
 	    int selectedIndex = ClientTable.getSelectionModel().getSelectedIndex();
 	    Client selectedClient = ClientTable.getSelectionModel().getSelectedItem();
 	    if (selectedIndex >= 0) {
-	    	
 
 			int id=ClientTable.getSelectionModel().getSelectedItem().getid_client();
 			String nomClient=tf_nom.getText();
@@ -227,13 +230,8 @@ public class VueGlobalController {
 			String adresseClient=tf_adresse.getText();
 			String telephoneClient=tf_telephone.getText();
 			String emailClient=tf_email.getText();
-//rajout id si besoin de test
 			Client unclient = new Client(id,nomClient,prenomClient,villeClient,adresseClient,telephoneClient,emailClient);
-
-			/**
-			 * appel de la methode clientUpdate de la classe Client_dao
-			 */
-
+			
 			Client_dao cldao = new Client_dao();
 			cldao.clientUpdate(unclient); //Maj dans la BDD
 			ClientTable.setItems(mainapp.getClientData());//mise a jour de l'affichage
@@ -451,7 +449,24 @@ System.out.println(selectedIndex);
 	    	}
 		}
 
-// appele de methode au champ de recherche
-		
+// appele de methode au champ de stat annee
+@FXML
+	public void InitializeStats_annee() {
+			lf_annee.setItems(mainapp.getStatAnnee());
+		}
+
+// appele de methode au champ de  stat annee
+@FXML
+	public void InitializeStats_mois() {
+			lf_mois.setItems(mainapp.getStatMois());
+			
+		}
+
+// appele de methode au champ de  stat annee
+
+	public void InitializeStats_ville() {
+			lf_ville.setItems(mainapp.getStatVille());
+		}
+
 }
 

@@ -71,8 +71,7 @@ public class identificationController {
 				System.out.println("Login OK");
 				
 				//Identification log = new Identification(resultSet.getString("admin"),resultSet.getString("login"),resultSet.getString("mdp") );
-				Principal toto = new Principal();
-				toto.VueGlobal();		
+				mainapp.VueGlobal();		
 				
 			} else {
 				//tf_lblStatus.setTextFill(Color.red);
