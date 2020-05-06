@@ -2,7 +2,6 @@ package Utile;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 
 import Modele.Compte;
@@ -10,11 +9,9 @@ import Modele.Operation;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-
-
 public class Operation_dao {
 
-	//methode de recherche d'operation
+//methode de recherche d'operation
 	public ObservableList<Operation> resultatSearchOpe(int num_compte_search ) {
 
 		ObservableList<Operation> resultatlistop = FXCollections.observableArrayList();
@@ -37,8 +34,7 @@ public class Operation_dao {
 
 				Operation desOpe = new Operation( id_operation, num_op,  operation,  montant,  id_compte, num_compte, date_creation);
 				resultatlistop.add(desOpe);
-		    	System.out.println (resultatlistop);
-		    	System.out.println (desOpe);
+
 				}
 		}catch ( Exception e) {
 			System.err.println(e.getMessage ());
@@ -46,7 +42,6 @@ public class Operation_dao {
 		}
 		return resultatlistop;
 	}
-
 
 }
 	

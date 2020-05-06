@@ -13,9 +13,7 @@ public class Connectdb {
 	//private String passwd = "toor";
 	private String passwd = "oFr5Z(PTRP3#lzC";
 	
-	
-
-	//le constructeur ci-dessous creer l'objet connect de type connections
+//le constructeur ci-dessous creer l'objet connect de type connections
 	public Connectdb () {
 		try {
 			// verif
@@ -31,13 +29,12 @@ public class Connectdb {
 			}
 	}
 	
-	//methode de type static pour ne pas avoir a creer un objet ( une instance avec new).
+//methode de type static pour ne pas avoir a creer un objet ( une instance avec new).
 		public static Connection initConnection() {
 			if (connect==null) {new Connectdb() ;}
 
 			return connect;
 
 		}
-	}
-
-
+	
+}

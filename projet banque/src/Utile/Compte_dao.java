@@ -9,8 +9,8 @@ import Modele.Compte;
 
 public class Compte_dao {
 
-	//methode de recherche du compte
-		public Compte resultatSearchnum(Integer num_search) {
+//methode de recherche du compte
+	public Compte resultatSearchnum(Integer num_search) {
 			Connection connect = Connectdb.initConnection();
 			Compte uncompte = new Compte();
 			String sql;
@@ -42,8 +42,8 @@ public class Compte_dao {
 			return uncompte;
 	}
 		
-		//methode de mise a jour du retrait
-		public void compteUpdate(int id_compte, int limite_retrait) {
+//methode de mise a jour du retrait
+	public void compteUpdate(int id_compte, int limite_retrait) {
 			Connection connect = Connectdb.initConnection();
 			String sql;
 			sql = "UPDATE compte SET limite_retrait ='"+ limite_retrait+"' "
@@ -57,16 +57,6 @@ public class Compte_dao {
 			}
 
 		}
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
+}
+	

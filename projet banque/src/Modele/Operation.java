@@ -15,16 +15,6 @@ public class Operation {
 	private  IntegerProperty id_compte= new SimpleIntegerProperty();
 	private  IntegerProperty num_compte= new SimpleIntegerProperty();
 
-
-//public Operation (int id_operation,int num_op, String operation, int montant, int id_compte,String date_creation){
-//	this.id_operation.set(id_operation);
-//	this.num_op.set(num_op);
-//	this.operation.set(operation);
-//	this.montant.set(montant);
-//	this.id_compte.set(id_compte);
-//	this.date_creation.set(date_creation);
-//	}
-
 public Operation (int id_operation,int num_op, String operation, int montant, int id_compte, int num_compte,String date_creation){
 	this.id_operation.set(id_operation);
 	this.num_op.set(num_op);
@@ -92,29 +82,24 @@ public void setDate_creation(StringProperty date_creation) {
 }
 
 public StringBinding numerocompteProperty() {
-	// TODO Auto-generated method stub
 	StringBinding temp = num_compte.asString();
 	return temp;
 }
 
 public StringProperty typeProperty() {
-	// TODO Auto-generated method stub
 	return operation;
 }
 
 public StringProperty datecreationProperty() {
-	// TODO Auto-generated method stub
 	return date_creation;
 }
 
 public StringBinding numerooperationProperty() {
-	// TODO Auto-generated method stub
 	StringBinding temp = num_op.asString();
 	return temp;
 }
 
 public StringBinding montantProperty() {
-	// TODO Auto-generated method stub
 	StringBinding temp = montant.asString();
 	return temp;
 }
